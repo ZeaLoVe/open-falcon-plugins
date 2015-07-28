@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/prometheus/client_golang/text"
@@ -45,6 +46,7 @@ func main() {
 
 	if err != nil {
 		log.Fatal("parse error")
+		return
 	}
 	m := pluginlibs.NewMetricsEcho()
 
@@ -60,10 +62,12 @@ func main() {
 		s := pluginlibs.NewMetricSingle()
 		metric = name
 		if family.GetType() == io_prometheus_client.MetricType_COUNTER {
-			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetCounter().GetValue())
+			value = strconv.FormatFloat(family.GetMetric()[0].GetCounter().GetValue(), 'f', -1, 64)
+			//			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetCounter().GetValue())
 			counterType = "COUNTER"
 		} else if family.GetType() == io_prometheus_client.MetricType_GAUGE {
-			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetGauge().GetValue())
+			value = strconv.FormatFloat(family.GetMetric()[0].GetGauge().GetValue(), 'f', -1, 64)
+			//			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetGauge().GetValue())
 			counterType = "GAUGE"
 		} else {
 			continue
