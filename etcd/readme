@@ -1,0 +1,5 @@
+# 脚本的内容仅仅是调用genmetrics程序，执行结果根据open-falcon的要求输出到标准输出
+# 该程序有三个参数，脚本使用了其中的两个。一个是API的URL地址，prometheus监控库的输出是有标准格式的
+# 参考 http://prometheus.io/docs/practices/naming/ 
+# 根据prometheus的API去解析该格式的输出，然后通过filter，过滤掉不需要的指标。
+# open-falcon的插件机制会去执行本脚本，将标准输出收集起来，并通过Falcon的Getaway发送到数据库中。
