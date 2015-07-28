@@ -69,7 +69,7 @@ func (m MetricsEcho) String() string {
 	if err != nil {
 		return ""
 	} else {
-		return string(str)[11 : len(str)-1]
+		return strings.Replace(string(str)[11:len(str)-1], "_", ".", -1)
 	}
 }
 
