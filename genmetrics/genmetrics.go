@@ -58,16 +58,19 @@ func main() {
 	}
 
 	var metric, value, counterType string
+	var tmp float64
 	for name, family := range metricsfamilies {
 		s := pluginlibs.NewMetricSingle()
 		metric = name
 		if family.GetType() == io_prometheus_client.MetricType_COUNTER {
-			value = strconv.FormatFloat(family.GetMetric()[0].GetCounter().GetValue(), 'f', -1, 64)
-			//			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetCounter().GetValue())
+			tmp = 0.0
+			for _, counter := range family.GetMetric() {
+				tmp += counter.GetCounter().GetValue()
+			}
+			value = strconv.FormatFloat(tmp, 'f', -1, 64)
 			counterType = "COUNTER"
 		} else if family.GetType() == io_prometheus_client.MetricType_GAUGE {
 			value = strconv.FormatFloat(family.GetMetric()[0].GetGauge().GetValue(), 'f', -1, 64)
-			//			value = fmt.Sprintf("%.3f", family.GetMetric()[0].GetGauge().GetValue())
 			counterType = "GAUGE"
 		} else {
 			continue
