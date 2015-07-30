@@ -20,9 +20,8 @@ mkdir plugin
 sed -i "s/: false/: true/g" cfg.json
 
 # 安装插件
-cd plugin
-mkdir etcdmetric
-cp /data/genmetrics/etcdmetric.sh etcdmetric/60_etcdmetric.sh 
-
-# 重启falcon-agent
-./control restart
+cd /usr/local/open-falcon/agent/plugin 
+mkdir skydnsmetric
+cp ~/genmetrics/skydnsmetric.sh skydnsmetric/60_skydnsmetric.sh
+# 重启falcon agent
+../control restart
